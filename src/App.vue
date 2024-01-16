@@ -3,8 +3,9 @@
 
     <NavBar/>
 
+    <router-view/>
+    
   </div>
-  <router-view/>
 </template>
 
 <script>
