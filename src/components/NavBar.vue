@@ -1,73 +1,81 @@
 <template>
-    <nav class="navbar">
+  <nav class="navbar">
+    <div class="navbar-container">
+      <router-link to="/" class="navbar-brand"> Home </router-link>
 
-      <!-- Left-aligned items -->
-      <div class="navbar-left">
-        <router-link to="/" class="navbar-item">Home</router-link>
-      </div>
-
-      <!-- Right-aligned items -->
       <div class="navbar-right">
-      <router-link to="/signin" class="navbar-item">Sign In</router-link>
-      <router-link to="/signup" class="navbar-item">Sign Up</router-link>
+        <!-- Show these links only if the user is not logged in -->
+        <router-link v-if="!isLoggedIn" to="/signin" class="navbar-item">Sign In</router-link>
+        <router-link v-if="!isLoggedIn" to="/signup" class="navbar-item">Sign Up</router-link>
+  
+        <!-- Show these links only if the user is logged in -->
+        <router-link v-if="isLoggedIn" to="/profile" class="navbar-item">Profile</router-link>
+        <a v-if="isLoggedIn" class="navbar-item logout-link" @click="logout">Logout</a>
       </div>
-      
-    </nav>
+    </div>
+  </nav>
 </template>
-  
-  <script>
-  export default {
-    name: 'NavBar',
+    
+<script>
+export default {
+  name: 'NavBar',
+  data() {
+    return {
+      isLoggedIn: false
+    };
+  },
+  created() {
+    this.isLoggedIn = !!localStorage.getItem('token');
+  },
+  methods: {
+    logout() {
+      localStorage.removeItem('token');
+      this.isLoggedIn = false;
+      this.$router.push('/');
+    }
   }
-  </script>
+}
+</script>
   
-  <style scoped>
+<style scoped>
   .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: fixed; 
+    background-color: #333333;
+    overflow: hidden;
+    position: fixed;
     top: 0;
-    left: 0;
-    right: 0; 
-    background-color: #2b2b2b; /* Dark but different from the page background */
-    color: white;
-    padding: 0.5rem 2rem; 
-    z-index: 1000; 
-    border-bottom: 1px solid #474747; /* Adds a border for distinction */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Adds a shadow for a subtle 3D effect */
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
   }
   
-  .navbar-left,
-  .navbar-right {
+  .navbar-container {
     display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
   }
   
-  .navbar-item {
-    padding: 0.5rem 1rem;
-    color: white;
+  .navbar-brand {
+    margin-right: auto;
+    color: #ffffff;
     text-decoration: none;
-    margin: 0 0.5rem;
-    white-space: nowrap; 
   }
   
   .navbar-right {
-    margin-left: auto; 
+    margin-left: auto;
   }
   
-  .navbar-item:hover {
-    background-color: #383838;
-    border-radius: 4px;
+  .navbar-item, .logout-link {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 10px 15px;
+    display: inline-block;
+    cursor: pointer;
   }
-  
-  body, html {
-    margin: 0;
-    padding: 0;
+
+  .navbar-item:hover, .logout-link:hover {
+    text-decoration: underline;
+    background-color: #474747;
   }
-  
-  body {
-    padding-top: 60px; /* Adjust to the height of your navbar */
-  }
-  </style>
-  
-  
+</style>
