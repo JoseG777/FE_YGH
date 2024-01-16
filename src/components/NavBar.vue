@@ -2,13 +2,12 @@
     <nav class="navbar">
       <!-- Left-aligned items -->
       <div class="navbar-left">
-        <a class="navbar-item" to="/">Home</a>
+        <router-link to="/Home" class="navbar-item">Home</router-link>
       </div>
-  
       <!-- Right-aligned items -->
       <div class="navbar-right">
-        <a class="navbar-item" to="/signin">Sign In</a>
-        <a class="navbar-item" to="/signup">Sign Up</a>
+      <router-link to="/signin" class="navbar-item">Sign In</router-link>
+      <router-link to="/signup" class="navbar-item">Sign Up</router-link>
       </div>
     </nav>
 </template>
