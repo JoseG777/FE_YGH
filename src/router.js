@@ -7,33 +7,29 @@ import SignUp from './views/SignUp.vue'
 const routes = 
 [
     {
-        path: '/Home',
-        name: 'HomePage',
-        components: HomePage
+        path: '/',
+        component: HomePage
     },
     {
         path: '/ProfilePage',
-        name: 'ProfilePage',
         component: ProfilePage
     },
     {
-        path: '/SignIn',
-        name: 'SignIn',
+        path: '/signin',
         component: SignIn
     },
     {
-        path: '/SignUp',
-        name: 'SignUp',
+        path: '/signup',
         component: SignUp
     },
-]
+];
 
-    const router = createRouter({
-        history: createWebHistory(),
-        routes
-    })
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+})
 
-    export default router
+export default router;
 
 
 

@@ -1,14 +1,17 @@
 <template>
     <nav class="navbar">
+
       <!-- Left-aligned items -->
       <div class="navbar-left">
-        <router-link to="/Home" class="navbar-item">Home</router-link>
+        <router-link to="/" class="navbar-item">Home</router-link>
       </div>
+
       <!-- Right-aligned items -->
       <div class="navbar-right">
       <router-link to="/signin" class="navbar-item">Sign In</router-link>
       <router-link to="/signup" class="navbar-item">Sign Up</router-link>
       </div>
+      
     </nav>
 </template>
   

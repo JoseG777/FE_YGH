@@ -1,11 +1,13 @@
 <template>
     <div>
-        test2
+        <h1> Sign In </h1>
     </div>
 </template>
   
 <script>
-
+export default {
+    
+}
 </script>
   
 <style>
