@@ -1,10 +1,17 @@
 <template>
+
   <div id="app">
+
     <NavBar/>
+
     <div class="page-content">
+
       <router-view/>
+      
     </div>
+
   </div>
+
 </template>
 
 <script>
