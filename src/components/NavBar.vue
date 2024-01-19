@@ -5,12 +5,13 @@
 
       <div class="navbar-right">
         <!-- Show these links only if the user is not logged in -->
-        <router-link v-if="!isLoggedIn" to="/signin" class="navbar-item">Sign In</router-link>
-        <router-link v-if="!isLoggedIn" to="/signup" class="navbar-item">Sign Up</router-link>
+        <router-link v-if="!isLoggedIn" to="/signin" class="navbar-item"> Sign In </router-link>
+        <router-link v-if="!isLoggedIn" to="/signup" class="navbar-item"> Sign Up </router-link>
   
         <!-- Show these links only if the user is logged in -->
-        <router-link v-if="isLoggedIn" to="/profile" class="navbar-item">Profile</router-link>
-        <a v-if="isLoggedIn" class="navbar-item logout-link" @click="logout">Logout</a>
+        <router-link v-if="isLoggedIn" to="/search" class="navbar-item"> Search </router-link>
+        <router-link v-if="isLoggedIn" to="/profile" class="navbar-item"> Profile </router-link>
+        <a v-if="isLoggedIn" class="navbar-item logout-link" @click="logout"> Logout </a>
       </div>
     </div>
   </nav>
