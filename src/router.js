@@ -3,6 +3,7 @@ import HomePage from './views/HomePage.vue'
 import ProfilePage from './views/ProfilePage.vue'
 import SignIn from './views/SignIn.vue'
 import SignUp from './views/SignUp.vue'
+import SearchCards from './views/SearchCards.vue'
 
 const routes = 
 [
@@ -11,7 +12,7 @@ const routes =
         component: HomePage
     },
     {
-        path: '/ProfilePage',
+        path: '/profile',
         component: ProfilePage
     },
     {
@@ -21,6 +22,10 @@ const routes =
     {
         path: '/signup',
         component: SignUp
+    },
+    {
+        path: '/search',
+        component: SearchCards
     },
 ];
 

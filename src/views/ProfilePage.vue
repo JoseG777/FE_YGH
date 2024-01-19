@@ -1,17 +1,16 @@
+<!-- src/components/YourComponent.vue -->
+
 <template>
     <div>
-        test1
+        test
     </div>
 </template>
   
 <script>
-export default {
-    
-}
+ 
 </script>
   
 <style>
-  
 
 </style>
   
