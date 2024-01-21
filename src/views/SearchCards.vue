@@ -5,8 +5,10 @@
       <button @click="search">Search</button>
   
       <div v-if="showDiv">
+
         <p>{{ cardDescription }}</p>
-        <button @click="saveCardImage(imageURL, 'uniqueCardId')">Save Image</button>
+
+        <button @click="saveCardImage"> Save Image </button>
       </div>
     </div>
 </template>
@@ -17,8 +19,12 @@ import axios from 'axios';
 export default {
     data() {
       return {
-        imageURL: null,
-        cardDescription: null,
+        imageURL: '',
+        cardDescription: '',
+        cardName: '',
+        cardLevel: '',
+        cardAttribute: '',
+        cardType: '',
         searchedCard: '',
         showDiv: false
       };
@@ -27,8 +33,15 @@ export default {
       async search() {
         try {
           const response = await axios.get(`https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${this.searchedCard}`);
-          this.imageURL = response.data.data[0].card_images[0].image_url;
+
           this.cardDescription = response.data.data[0].desc;
+
+          this.imageURL = response.data.data[0].card_images[0].image_url;
+          this.cardName = response.data.data[0].name;
+          this.cardLevel = response.data.data[0].level;
+          this.cardAttribute = response.data.data[0].attribute;
+          this.cardType = response.data.data[0].type;
+
           this.showDiv = true;
         } catch (error) {
           console.error(error);
@@ -36,7 +49,7 @@ export default {
         }
       },
   
-      async saveCardImage(imageUrl, cardId) {
+      async saveCardImage() {
         const token = localStorage.getItem('token');
         if (!token) {
           alert('You must be logged in to save images.');
@@ -45,8 +58,13 @@ export default {
   
         try {
           await axios.post('http://localhost:5052/api/image/save-card-image', {
-            imageUrl,
-            cardId
+
+            imageUrl: this.imageURL,
+            cardId: this.cardName, 
+            cardLevel: this.cardLevel,
+            cardAttribute: this.cardAttribute,
+            cardType: this.cardType
+
           }, {
             headers: { Authorization: `Bearer ${token}` }
           });
