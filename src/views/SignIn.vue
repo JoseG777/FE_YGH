@@ -13,29 +13,32 @@
 </template>
   
 <script>
-  import axios from 'axios';
-  
-  export default {
-    data() {
-      return {
-        login: '',
-        password: ''
-      };
-    },
-    methods: {
-      signin() {
-        axios.post('http://localhost:5052/api/auth/signin', {
-          login: this.login,
-          password: this.password
-        })
-        .then(response => {
-          localStorage.setItem('token', response.data.token);
-          this.$router.push('/'); 
-        })
-        .catch(error => console.error(error));
-      }
+import axios from 'axios';
+import { useAuthStore } from '../authStore';
+
+export default {
+  data() {
+    return {
+      login: '',
+      password: ''
+    };
+  },
+  methods: {
+    signin() {
+      axios.post('http://localhost:5052/api/auth/signin', {
+        login: this.login,
+        password: this.password
+      })
+      .then(response => {
+        const authStore = useAuthStore();
+        authStore.logIn(response.data.token);
+        this.$router.push('/');
+      })
+      .catch(error => console.error(error));
     }
   }
+}
+
 </script>
   
   

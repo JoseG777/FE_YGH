@@ -33,9 +33,9 @@ export default {
         email: this.email,
         password: this.password
       })
-      .then(response => {
-        localStorage.setItem('token', response.data.token);
-        this.$router.push('/'); 
+      .then(/*response*/() => {
+        //localStorage.setItem('token', response.data.token);
+        this.$router.push('/signin'); 
       })
       .catch(error => console.error(error));
     }

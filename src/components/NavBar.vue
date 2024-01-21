@@ -5,37 +5,37 @@
 
       <div class="navbar-right">
         <!-- Show these links only if the user is not logged in -->
-        <router-link v-if="!isLoggedIn" to="/signin" class="navbar-item"> Sign In </router-link>
-        <router-link v-if="!isLoggedIn" to="/signup" class="navbar-item"> Sign Up </router-link>
+        <router-link v-if="!authStore.isLoggedIn" to="/signin" class="navbar-item"> Sign In </router-link>
+        <router-link v-if="!authStore.isLoggedIn" to="/signup" class="navbar-item"> Sign Up </router-link>
   
         <!-- Show these links only if the user is logged in -->
-        <router-link v-if="isLoggedIn" to="/search" class="navbar-item"> Search </router-link>
-        <router-link v-if="isLoggedIn" to="/profile" class="navbar-item"> Profile </router-link>
-        <a v-if="isLoggedIn" class="navbar-item logout-link" @click="logout"> Logout </a>
+        <router-link v-if="authStore.isLoggedIn" to="/search" class="navbar-item"> Search </router-link>
+        <router-link v-if="authStore.isLoggedIn" to="/profile" class="navbar-item"> Profile </router-link>
+        <a v-if="authStore.isLoggedIn" class="navbar-item logout-link" @click="logout"> Logout </a>
       </div>
     </div>
   </nav>
 </template>
     
 <script>
+import { useAuthStore } from '../authStore';
+
 export default {
-  name: 'NavBar',
-  data() {
-    return {
-      isLoggedIn: false
-    };
-  },
-  created() {
-    this.isLoggedIn = !!localStorage.getItem('token');
+  setup() {
+    const authStore = useAuthStore();
+    authStore.checkAuth();
+
+    return { authStore };
   },
   methods: {
     logout() {
-      localStorage.removeItem('token');
-      this.isLoggedIn = false;
+      const authStore = useAuthStore();
+      authStore.logOut();
       this.$router.push('/');
     }
   }
-}
+};
+
 </script>
   
 <style scoped>
@@ -59,6 +59,9 @@ export default {
     margin-right: auto;
     color: #ffffff;
     text-decoration: none;
+    font-weight: 500;
+    padding: 10px 15px;
+    display: inline-block;
   }
   
   .navbar-right {
@@ -75,7 +78,7 @@ export default {
     cursor: pointer;
   }
 
-  .navbar-item:hover, .logout-link:hover {
+  .navbar-item:hover, .logout-link:hover, .navbar-brand:hover {
     text-decoration: underline;
     background-color: #474747;
   }
