@@ -12,6 +12,7 @@
   
 <script setup>
     import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+
     import { ref } from "vue";
 
     const email = ref('');
@@ -31,6 +32,7 @@
     console.error("Error signing up:", error.code, error.message);
   }
 };
+
 </script>
   
 <style scoped>
