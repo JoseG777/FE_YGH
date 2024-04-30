@@ -7,27 +7,27 @@
       <button type="submit">Sign Up</button>
     </form>
   </div>
-  </template>
+</template>
   
-  <script setup>
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+<script setup>
+    import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
-const email = ref('');
-const password = ref('');
+    const email = ref('');
+    const password = ref('');
 
-const handleSignUp = async () => {
-  const auth = getAuth();
-  try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
-    console.log("Sign up successful", userCredential.user);
-  } catch (error) {
-    console.error("Error signing up:", error.code, error.message);
-  }
-};
-  </script>
+    const handleSignUp = async () => {
+    const auth = getAuth();
+    try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
+        console.log("Sign up successful", userCredential.user);
+    } catch (error) {
+        console.error("Error signing up:", error.code, error.message);
+    }
+    };
+</script>
   
-  <style scoped>
+<style scoped>
 
 
-  </style>
+</style>
   
