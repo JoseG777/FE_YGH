@@ -46,12 +46,12 @@
             >Confirm Password</span
           >
         </div>
-        <button type="submit" @click.prevent="handleSignUp">Login</button>
+        <button type="submit" @click.prevent="handleSignUp">Sign Up</button>
       </form>
     </body>
-  </template>
+</template>
   
-  <script setup>
+<script setup>
   import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
   import { ref } from "vue";
   
@@ -85,9 +85,9 @@
       showConfirmPasswordPlaceholder.value = true;
     }
   };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   input {
     width: 100%;
     padding: 10px;
@@ -163,4 +163,4 @@
   button {
     transition: all 0.3s ease;
   }
-  </style>
+</style>
