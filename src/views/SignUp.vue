@@ -2,21 +2,28 @@
   <div>
     <h2>Sign Up</h2>
     <form @submit.prevent="handleSignUp">
-      <input type="email" v-model="email" placeholder="Email">
-      <input type="password" v-model="password" placeholder="Password">
-      <button type="submit">Sign Up</button>
+        <input type="email" v-model="email" placeholder="Email">
+        <input type="password" v-model="password" placeholder="Password">
+        <input type="password" v-model="confirmPassword" placeholder="Confirm Password">
+        <button type="submit">Sign Up</button>
     </form>
   </div>
-  </template>
+</template>
   
-  <script setup>
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+<script setup>
+    import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+    import { ref } from "vue";
 
-const email = ref('');
-const password = ref('');
+    const email = ref('');
+    const password = ref('');
+    const confirmPassword = ref('');
 
-const handleSignUp = async () => {
+    const handleSignUp = async () => {
   const auth = getAuth();
+  if (password.value !== confirmPassword.value) {
+    console.error("Passwords do not match");
+    return;
+  }
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value);
     console.log("Sign up successful", userCredential.user);
@@ -24,10 +31,10 @@ const handleSignUp = async () => {
     console.error("Error signing up:", error.code, error.message);
   }
 };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
 
 
-  </style>
+</style>
   
