@@ -3,8 +3,8 @@
         <div class="navbar-container">
             <router-link to="/" class="navbar-brand">Home</router-link>
             <div class="navbar-right">
-                <router-link to="/signin" class="navbar-item">Sign In</router-link>
-                <router-link to="/signup" class="navbar-item">Sign Up</router-link>
+                <router-link to="/sign-in" class="navbar-item">Sign In</router-link>
+                <router-link to="/sign-up" class="navbar-item">Sign Up</router-link>
             </div>
         </div>
     </nav>
