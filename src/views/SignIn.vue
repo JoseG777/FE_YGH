@@ -1,13 +1,9 @@
 <template>
   <div>
-    <div>SignIn</div>
+    <div> SignIn </div>
   </div>
 </template>
 
-<script setup>
+<script setup></script>
 
-</script>
-
-<style scoped>
-
-</style>
+<style scoped></style>
