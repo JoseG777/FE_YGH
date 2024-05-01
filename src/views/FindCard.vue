@@ -71,10 +71,10 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    width: 100%; =
+    width: 100%;
   }
 
-  input[type='text'] {
+  input {
     padding: 8px;
     margin: 10px 0;
     width: 80%;
