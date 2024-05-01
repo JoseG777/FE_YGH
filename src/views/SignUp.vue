@@ -78,10 +78,11 @@
     } else if (field === 'confirmPassword' && !showConfirmPasswordPlaceholder.value) {
       showConfirmPasswordPlaceholder.value = true
     }
- </script>
-   <style scoped>
-   @import url("https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900");
-   
+  }
+</script>
+<style scoped>
+  @import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+
   input {
     width: 100%;
     padding: 10px;
