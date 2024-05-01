@@ -81,7 +81,6 @@
   }
 </script>
 <style scoped>
->>>>>>>>> Temporary merge branch 2
   input {
     width: 100%;
     padding: 10px;
