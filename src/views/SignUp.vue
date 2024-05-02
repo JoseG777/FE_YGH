@@ -3,6 +3,19 @@
     <form class="login-form">
       <div class="field">
         <input
+          type="text"
+          v-model="username"
+          placeholder=" "
+          required
+          @focus="togglePlaceholder('username')"
+          @blur="togglePlaceholder('username')"
+        />
+        <span class="placeholder" :class="{ 'placeholder-visible': showUsernamePlaceholder }"
+          >Username</span
+        >
+      </div>
+      <div class="field">
+        <input
           type="email"
           v-model="email"
           placeholder=" "
@@ -52,11 +65,15 @@
 <script setup>
   import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
   import { ref } from 'vue'
+  import axios from 'axios'
 
+  const username = ref('')
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
   const showEmailPlaceholder = ref(true)
+  const uid = ref('')
+
   const showPasswordPlaceholder = ref(true)
   const showConfirmPasswordPlaceholder = ref(true)
 
@@ -64,9 +81,28 @@
     const auth = getAuth()
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
-      console.log('User successfully created', userCredential.user)
+      uid.value = userCredential.user.uid
+
+      addUserData(username.value, email.value, uid.value)
+      // console.log('User successfully created', userCredential.user)
     } catch (error) {
       console.error('Error signing up:', error.code, error.message)
+    }
+  }
+
+  const addUserData = async (username, email, uid) => {
+    const userData = {
+      username,
+      email,
+      uid
+    }
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/createUser`,
+        userData
+      )
+    } catch (error) {
+      console.error('Create Error:', error)
     }
   }
 

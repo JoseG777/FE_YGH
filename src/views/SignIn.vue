@@ -34,32 +34,32 @@
 </template>
 
 <script setup>
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+  import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 
-import { ref } from 'vue'
+  import { ref } from 'vue'
 
-const email = ref('')
-const password = ref('')
-const showEmailPlaceholder = ref(true)
-const showPasswordPlaceholder = ref(true)
+  const email = ref('')
+  const password = ref('')
+  const showEmailPlaceholder = ref(true)
+  const showPasswordPlaceholder = ref(true)
 
-const handleSignUp = async () => {
-  const auth = getAuth()
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
-    console.log('Sign in successful', userCredential.user)
-  } catch (error) {
-    console.error('Error signing in:', error.code, error.message)
+  const handleSignUp = async () => {
+    const auth = getAuth()
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
+      console.log('Sign in successful', userCredential.user)
+    } catch (error) {
+      console.error('Error signing in:', error.code, error.message)
+    }
   }
-}
 
-const togglePlaceholder = (field) => {
-  if (field === 'email' && !showEmailPlaceholder.value) {
-    showEmailPlaceholder.value = true
-  } else if (field === 'password' && !showPasswordPlaceholder.value) {
-    showPasswordPlaceholder.value = true
+  const togglePlaceholder = (field) => {
+    if (field === 'email' && !showEmailPlaceholder.value) {
+      showEmailPlaceholder.value = true
+    } else if (field === 'password' && !showPasswordPlaceholder.value) {
+      showPasswordPlaceholder.value = true
+    }
   }
-}
 </script>
 
 <style scoped>

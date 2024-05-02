@@ -50,7 +50,15 @@
       def.value = response.data.data[0].def
       level.value = response.data.data[0].level
       type.value = response.data.data[0].type
-      url.value = response.data.data[0].card_images[0].image_url
+      if (
+        name.value == 'Dark Magician' ||
+        name.value == 'dark magician' ||
+        name.value == 'Dark magician'
+      ) {
+        url.value = response.data.data[0].card_images[2].image_url
+      } else {
+        url.value = response.data.data[0].card_images[0].image_url
+      }
       succesful_search.value = true
     } catch (error) {
       console.error(error)
@@ -71,7 +79,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    width: 100%; 
+    width: 100%;
   }
 
   input {
