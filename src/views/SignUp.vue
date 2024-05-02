@@ -50,7 +50,7 @@
 </template>
 
 <script setup>
-  import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+  import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
   import { ref } from 'vue'
 
   const email = ref('')
@@ -63,10 +63,10 @@
   const handleSignUp = async () => {
     const auth = getAuth()
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
-      console.log('Login successful', userCredential.user)
+      const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
+      console.log('User successfully created', userCredential.user)
     } catch (error) {
-      console.error('Error logging in:', error.code, error.message)
+      console.error('Error signing up:', error.code, error.message)
     }
   }
 
@@ -80,9 +80,8 @@
     }
   }
 </script>
-<style scoped>
-  @import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
 
+<style scoped>
   input {
     width: 100%;
     padding: 10px;
