@@ -3,6 +3,19 @@
     <form class="login-form">
       <div class="field">
         <input
+          type="username"
+          v-model="username"
+          placeholder=" "
+          required
+          @focus="togglePlaceholder('username')"
+          @blur="togglePlaceholder('username')"
+        />
+        <span class="placeholder" :class="{ 'placeholder-visible': showUsernamePlaceholder }"
+          >Username</span
+        >
+      </div>
+      <div class="field">
+        <input  
           type="email"
           v-model="email"
           placeholder=" "
@@ -52,18 +65,25 @@
 <script setup>
   import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
   import { ref } from 'vue'
+  import axios from 'axios'
 
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
+  const username = ref('')
+  const uid = ref('') 
   const showEmailPlaceholder = ref(true)
   const showPasswordPlaceholder = ref(true)
   const showConfirmPasswordPlaceholder = ref(true)
+  const showUsernamePlaceholder = ref(true)
 
   const handleSignUp = async () => {
     const auth = getAuth()
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
+      uid.value = userCredential.user.uid
+
+      addUserData(username.value, email.value, uid.value)
       console.log('User successfully created', userCredential.user)
     } catch (error) {
       console.error('Error signing up:', error.code, error.message)
@@ -77,6 +97,24 @@
       showPasswordPlaceholder.value = true
     } else if (field === 'confirmPassword' && !showConfirmPasswordPlaceholder.value) {
       showConfirmPasswordPlaceholder.value = true
+    } else if (field === 'username' && !showUsernamePlaceholder.value) {
+      showUsernamePlaceholder.value = true
+    }
+  }
+
+  const addUserData = async (username, email, uid) => {
+    const userData = {
+    username,
+    email,
+    uid
+    }
+    try {
+      const response = await axios.post(
+        `http://127.0.0.1:4040/yugioh-saver/us-central1/api/CreateUser`,
+        userData
+      )
+    } catch (error) {
+      console.error('Create Error:', error)
     }
   }
 </script>

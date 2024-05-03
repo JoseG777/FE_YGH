@@ -3,15 +3,15 @@
     <form class="login-form">
       <div class="field">
         <input
-          type="email"
-          v-model="email"
+          type="text"
+          v-model="emailOrUsername"
           placeholder=" "
           required
-          @focus="togglePlaceholder('email')"
-          @blur="togglePlaceholder('email')"
+          @focus="togglePlaceholder('emailOrUsername')"
+          @blur="togglePlaceholder('emailOrUsername')"
         />
-        <span class="placeholder" :class="{ 'placeholder-visible': showEmailPlaceholder }"
-          >Email</span
+        <span class="placeholder" :class="{ 'placeholder-visible': showEmailOrUsernamePlaceholder }"
+          >Email/Username</span
         >
       </div>
 
@@ -28,38 +28,51 @@
           >Password</span
         >
       </div>
-      <button type="submit" @click.prevent="handleSignUp">Sign In</button>
+      <button type="submit" @click.prevent="handleSignIn">Sign In</button>
     </form>
   </body>
 </template>
 
 <script setup>
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import axios from 'axios'
 import { ref } from 'vue'
 
-const email = ref('')
+const emailOrUsername = ref('')
 const password = ref('')
-const showEmailPlaceholder = ref(true)
+const showEmailOrUsernamePlaceholder = ref(true)
 const showPasswordPlaceholder = ref(true)
 
-const handleSignUp = async () => {
+const handleSignIn = async () => {
   const auth = getAuth()
+
+  const email = await getUserEmail(emailOrUsername.value)
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
-    console.log('Sign in successful', userCredential.user)
+    const userCredential = await signInWithEmailAndPassword(auth, email, password)
+    console.log('User signed in:', userCredential.user)
   } catch (error) {
-    console.error('Error signing in:', error.code, error.message)
+    console.error('Error signing in:', error)
+  }
+}
+
+  const getUserEmail = async (username) => {
+  try {
+    const response = await axios.get(`http://127.0.0.1:4040/yugioh-saver/us-central1/api/CreateUser`, username)
+    return response.data.email
+  } catch (error) {
+    console.error('Error getting user email:', error)
+    return ''
   }
 }
 
 const togglePlaceholder = (field) => {
-  if (field === 'email' && !showEmailPlaceholder.value) {
-    showEmailPlaceholder.value = true
+  if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
+    showEmailOrUsernamePlaceholder.value = true
   } else if (field === 'password' && !showPasswordPlaceholder.value) {
     showPasswordPlaceholder.value = true
   }
 }
+
 </script>
 
 <style scoped>
