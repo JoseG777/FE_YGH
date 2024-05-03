@@ -15,7 +15,7 @@
         >
       </div>
       <div class="field">
-        <input  
+        <input
           type="email"
           v-model="email"
           placeholder=" "
@@ -71,7 +71,7 @@
   const password = ref('')
   const confirmPassword = ref('')
   const username = ref('')
-  const uid = ref('') 
+  const uid = ref('')
   const showEmailPlaceholder = ref(true)
   const showPasswordPlaceholder = ref(true)
   const showConfirmPasswordPlaceholder = ref(true)
@@ -104,13 +104,13 @@
 
   const addUserData = async (username, email, uid) => {
     const userData = {
-    username,
-    email,
-    uid
+      username,
+      email,
+      uid
     }
     try {
       const response = await axios.post(
-        `http://127.0.0.1:4040/yugioh-saver/us-central1/api/CreateUser`,
+        `http://127.0.0.1:4040/yugioh-saver/us-central1/api/createUser`,
         userData
       )
     } catch (error) {
