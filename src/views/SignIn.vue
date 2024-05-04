@@ -44,20 +44,35 @@ const showEmailOrUsernamePlaceholder = ref(true)
 const showPasswordPlaceholder = ref(true)
 
 const handleSignIn = async () => {
-  const auth = getAuth()
+  const auth = getAuth();
 
-  const email = await getUserEmail(emailOrUsername.value)
+  let email = emailOrUsername.value;
+
+  if (!emailOrUsername.value.includes('@')) {
+    const username = emailOrUsername.value;
+    email = await getUserEmail(username);
+    if (!email) {
+      error.value = "Username not found";
+      return;
+    }
+  }
+
   try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    console.log('User signed in:', userCredential.user)
+    const userCredential = await signInWithEmailAndPassword(auth, email, password.value);
+    console.log('User signed in:', userCredential.user);
   } catch (error) {
-    console.error('Error signing in:', error)
+    console.error('Error signing in:', error);
   }
 }
 
-  const getUserEmail = async (username) => {
+const getUserEmail = async (username) => {
   try {
-    const response = await axios.get(`http://127.0.0.1:4040/yugioh-saver/us-central1/api/CreateUser`, username)
+    const response = await axios.get(
+      `http://127.0.0.1:1115/yugioh-saver/us-central1/api/findEmail`,
+      {
+        params: { username }
+      }
+    )
     return response.data.email
   } catch (error) {
     console.error('Error getting user email:', error)
