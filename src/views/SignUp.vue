@@ -69,18 +69,32 @@
   import { useRouter } from 'vue-router'
 
   const router = useRouter()
+
+  // Sign Up values
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
   const username = ref('')
   const uid = ref('')
+
+  // Placeholder values
   const showEmailPlaceholder = ref(true)
   const showPasswordPlaceholder = ref(true)
   const showConfirmPasswordPlaceholder = ref(true)
   const showUsernamePlaceholder = ref(true)
 
+  // Error message
+  const error = ref('')
+  const errorThrown = ref(false)
+
   const handleSignUp = async () => {
     const auth = getAuth()
+    if (username.value.includes('@')) {
+      errorThrown.value = true
+      error.value = 'Username cannot contain @'
+      return
+    }
+
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email.value, password.value)
       uid.value = userCredential.user.uid
