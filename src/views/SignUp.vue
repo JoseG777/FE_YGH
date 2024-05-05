@@ -66,7 +66,9 @@
   import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
   import { ref } from 'vue'
   import axios from 'axios'
+  import { useRouter } from 'vue-router'
 
+  const router = useRouter()
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
@@ -84,6 +86,7 @@
       uid.value = userCredential.user.uid
 
       addUserData(username.value, email.value, uid.value)
+      router.push('/sign-in')
       console.log('User successfully created', userCredential.user)
     } catch (error) {
       console.error('Error signing up:', error.code, error.message)
