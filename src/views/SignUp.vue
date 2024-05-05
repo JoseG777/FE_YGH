@@ -110,7 +110,7 @@
     }
     try {
       const response = await axios.post(
-        `http://127.0.0.1:4040/yugioh-saver/us-central1/api/createUser`,
+        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/CreateUser`,
         userData
       )
     } catch (error) {
