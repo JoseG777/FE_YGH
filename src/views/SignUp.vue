@@ -3,7 +3,7 @@
     <form class="login-form">
       <div class="field">
         <input
-          type="text"
+          type="username"
           v-model="username"
           placeholder=" "
           required
@@ -67,15 +67,15 @@
   import { ref } from 'vue'
   import axios from 'axios'
 
-  const username = ref('')
   const email = ref('')
   const password = ref('')
   const confirmPassword = ref('')
-  const showEmailPlaceholder = ref(true)
+  const username = ref('')
   const uid = ref('')
-
+  const showEmailPlaceholder = ref(true)
   const showPasswordPlaceholder = ref(true)
   const showConfirmPasswordPlaceholder = ref(true)
+  const showUsernamePlaceholder = ref(true)
 
   const handleSignUp = async () => {
     const auth = getAuth()
@@ -84,9 +84,21 @@
       uid.value = userCredential.user.uid
 
       addUserData(username.value, email.value, uid.value)
-      // console.log('User successfully created', userCredential.user)
+      console.log('User successfully created', userCredential.user)
     } catch (error) {
       console.error('Error signing up:', error.code, error.message)
+    }
+  }
+
+  const togglePlaceholder = (field) => {
+    if (field === 'email' && !showEmailPlaceholder.value) {
+      showEmailPlaceholder.value = true
+    } else if (field === 'password' && !showPasswordPlaceholder.value) {
+      showPasswordPlaceholder.value = true
+    } else if (field === 'confirmPassword' && !showConfirmPasswordPlaceholder.value) {
+      showConfirmPasswordPlaceholder.value = true
+    } else if (field === 'username' && !showUsernamePlaceholder.value) {
+      showUsernamePlaceholder.value = true
     }
   }
 
@@ -98,21 +110,11 @@
     }
     try {
       const response = await axios.post(
-        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/createUser`,
+        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/CreateUser`,
         userData
       )
     } catch (error) {
       console.error('Create Error:', error)
-    }
-  }
-
-  const togglePlaceholder = (field) => {
-    if (field === 'email' && !showEmailPlaceholder.value) {
-      showEmailPlaceholder.value = true
-    } else if (field === 'password' && !showPasswordPlaceholder.value) {
-      showPasswordPlaceholder.value = true
-    } else if (field === 'confirmPassword' && !showConfirmPasswordPlaceholder.value) {
-      showConfirmPasswordPlaceholder.value = true
     }
   }
 </script>
