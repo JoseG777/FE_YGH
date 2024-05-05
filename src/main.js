@@ -4,6 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage";
 import router from './router';
+import {createPinia} from 'pinia';
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_APP_API_KEY,
@@ -20,6 +21,8 @@ if (import.meta.env.VITE_APP_MEASUREMENT_ID) {
     getAnalytics();
     getStorage();
 }
+
+createApp(App).use(router).use(createPinia()).mount('#app');
 
 const app = createApp(App);
 app.use(router);
