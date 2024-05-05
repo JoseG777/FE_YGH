@@ -63,8 +63,9 @@
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password.value)
-      console.log('User signed in:', userCredential.user)
-      authStore.login()
+      // console.log('User signed in:', userCredential.user)
+      // console.log('User ID:', userCredential.user.uid)
+      authStore.login(userCredential.user.uid)
       router.push('/')
     } catch (error) {
       console.error('Error signing in:', error)
