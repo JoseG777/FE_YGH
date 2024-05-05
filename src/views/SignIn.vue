@@ -43,19 +43,8 @@
   const showEmailPlaceholder = ref(true)
   const showPasswordPlaceholder = ref(true)
   const emailOrUsername = ref('')
-  const password = ref('')
   const showEmailOrUsernamePlaceholder = ref(true)
-  const showPasswordPlaceholder = ref(true)
 
-  const handleSignUp = async () => {
-    const auth = getAuth()
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email.value, password.value)
-      console.log('Sign in successful', userCredential.user)
-    } catch (error) {
-      console.error('Error signing in:', error.code, error.message)
-    }
-  }
   const handleSignIn = async () => {
     const auth = getAuth()
 
@@ -93,13 +82,6 @@
     }
   }
 
-  const togglePlaceholder = (field) => {
-    if (field === 'email' && !showEmailPlaceholder.value) {
-      showEmailPlaceholder.value = true
-    } else if (field === 'password' && !showPasswordPlaceholder.value) {
-      showPasswordPlaceholder.value = true
-    }
-  }
   const togglePlaceholder = (field) => {
     if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
       showEmailOrUsernamePlaceholder.value = true
