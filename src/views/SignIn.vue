@@ -34,16 +34,16 @@
 </template>
 
 <script setup>
+  import { ref } from 'vue'
   import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
   import axios from 'axios'
-  import { ref } from 'vue'
+  import { useAuthStore } from './stores/TasksStore'
 
-  const email = ref('')
-  const password = ref('')
-  const showEmailPlaceholder = ref(true)
-  const showPasswordPlaceholder = ref(true)
   const emailOrUsername = ref('')
+  const password = ref('')
   const showEmailOrUsernamePlaceholder = ref(true)
+  const showPasswordPlaceholder = ref(true)
+  const authStore = useAuthStore()
 
   const handleSignIn = async () => {
     const auth = getAuth()
@@ -67,19 +67,12 @@
     }
   }
 
-  const getUserEmail = async (username) => {
-    try {
-      const response = await axios.get(
-        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/findEmail`,
-        {
-          params: { username }
-        }
-      )
-      return response.data.email
-    } catch (error) {
-      console.error('Error getting user email:', error)
-      return ''
-    }
+  try {
+    const userCredential = await signInWithEmailAndPassword(auth, email, password.value)
+    console.log('User signed in:', userCredential.user)
+    authStore.login()
+  } catch (error) {
+    console.error('Error signing in:', error)
   }
 
   const togglePlaceholder = (field) => {
@@ -88,6 +81,10 @@
     } else if (field === 'password' && !showPasswordPlaceholder.value) {
       showPasswordPlaceholder.value = true
     }
+  }
+
+  const login = () => {
+    authStore.login()
   }
 </script>
 
