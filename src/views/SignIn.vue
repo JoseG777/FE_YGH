@@ -34,14 +34,16 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import axios from 'axios'
-import { ref } from 'vue'
+import { useAuthStore } from './stores/TasksStore';
 
 const emailOrUsername = ref('')
 const password = ref('')
 const showEmailOrUsernamePlaceholder = ref(true)
 const showPasswordPlaceholder = ref(true)
+const authStore = useAuthStore();
 
 const handleSignIn = async () => {
   const auth = getAuth();
@@ -60,6 +62,7 @@ const handleSignIn = async () => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password.value);
     console.log('User signed in:', userCredential.user);
+    authStore.login();
   } catch (error) {
     console.error('Error signing in:', error);
   }
@@ -79,6 +82,10 @@ const getUserEmail = async (username) => {
     return ''
   }
 }
+
+const login = () => {
+  authStore.login();
+};
 
 const togglePlaceholder = (field) => {
   if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
