@@ -2,7 +2,8 @@
   <div id="app">
 
     <NavBar />
-
+    <p v-if="authStore.isLoggedIn">User is logged in</p>
+    <p v-else>User is not logged in</p>
     <div class="page-content">
 
       <router-view/>
@@ -14,6 +15,9 @@
 
 <script setup>
 import NavBar from './components/NavBar.vue'
+import { useAuthStore } from '@/store/auth';
+
+const authStore = useAuthStore();
 </script>
 
 <style>
