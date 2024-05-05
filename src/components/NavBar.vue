@@ -2,14 +2,15 @@
   <nav class="navbar">
     <div class="navbar-container">
       <router-link to="/" class="navbar-brand">Home</router-link>
-      <div class="navbar-right">
-        <router-link v-if="!authStore.loggedIn" to="/sign-in" class="navbar-item"
-          >Sign In</router-link
-        >
-        <router-link v-if="!authStore.loggedIn" to="/sign-up" class="navbar-item"
-          >Sign Up</router-link
-        >
-        <a v-if="authStore.loggedIn" @click="handleLogout" class="navbar-item">Sign Out</a>
+
+      <div class="navbar-right" v-if="!authStore.loggedIn">
+        <router-link to="/sign-in" class="navbar-item">Sign In</router-link>
+        <router-link to="/sign-up" class="navbar-item">Sign Up</router-link>
+      </div>
+
+      <div class="navbar-right" v-if="authStore.loggedIn">
+        <router-link to="/find-card" class="navbar-item"> Find Cards </router-link>
+        <a @click="handleLogout" class="navbar-item">Sign Out</a>
       </div>
     </div>
   </nav>
