@@ -87,10 +87,6 @@
     }
   }
 
-  const login = () => {
-    authStore.login()
-  }
-
   const togglePlaceholder = (field) => {
     if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
       showEmailOrUsernamePlaceholder.value = true
