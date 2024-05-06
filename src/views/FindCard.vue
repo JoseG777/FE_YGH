@@ -9,12 +9,10 @@
     <div class="card-details" v-show="succesful_search">
       <img :src="url" alt="Card Image" loading="lazy" />
       <p>{{ description }}</p>
-      <p>Archetype: {{ archetype }}</p>
-      <p>Attribute: {{ attribute }}</p>
-      <p>ATK: {{ atk }}</p>
-      <p>DEF: {{ def }}</p>
-      <p>Level: {{ level }}</p>
-      <p>Type: {{ type }}</p>
+      <p>Archetype: {{ archetype }} || Attribute: {{ attribute }}</p>
+      <p>ATK: {{ atk }} || DEF: {{ def }}</p>
+      <p>Level: {{ level }} || Type: {{ type }}</p>
+      <button @click="saveImage">Save Image</button>
     </div>
   </div>
 </template>
@@ -22,6 +20,9 @@
 <script setup>
   import axios from 'axios'
   import { ref } from 'vue'
+  import { useAuthStore } from '../stores/AuthStore'
+
+  const saveCardUrl = import.meta.env.VITE_APP_SAVE_CARD_URL
 
   const name = ref('')
   const description = ref('')
@@ -34,8 +35,9 @@
   const url = ref('')
 
   const succesful_search = ref(false)
-
   const unsuccessfull_search = ref(false)
+
+  const authStore = useAuthStore()
 
   async function getCard() {
     try {
@@ -43,6 +45,8 @@
         `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${name.value}`
       )
       console.log(response.data.data[0])
+
+      name.value = response.data.data[0].name
       description.value = response.data.data[0].desc
       archetype.value = response.data.data[0].archetype
       attribute.value = response.data.data[0].attribute
@@ -50,11 +54,39 @@
       def.value = response.data.data[0].def
       level.value = response.data.data[0].level
       type.value = response.data.data[0].type
-      url.value = response.data.data[0].card_images[0].image_url
+
+      if (name.value.toLowerCase() === 'dark magician') {
+        url.value = response.data.data[0].card_images[2].image_url // the API doesn't return the OG Dark Magician image as the first one
+        description.value = 'The ultimate wizard in terms of attack and defense.' // the API adds quotes to the description
+      } else {
+        url.value = response.data.data[0].card_images[0].image_url
+      }
       succesful_search.value = true
     } catch (error) {
       console.error(error)
       unsuccessfull_search.value = true
+    }
+  }
+
+  // Download image to firebase storage
+  const saveImage = async () => {
+    try {
+      const response = await axios.post(`${saveCardUrl}`, {
+        uid: authStore.uid,
+        name: name.value,
+        url: url.value,
+        description: description.value,
+        archetype: archetype.value,
+        attribute: attribute.value,
+        atk: atk.value,
+        def: def.value,
+        level: level.value,
+        type: type.value
+      })
+
+      console.log(response.data.imageUrl)
+    } catch (error) {
+      console.error('Error in saveImage:', error.response ? error.response.data : error.message)
     }
   }
 </script>
@@ -71,7 +103,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    width: 100%; 
+    width: 100%;
   }
 
   input {

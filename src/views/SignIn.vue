@@ -34,67 +34,66 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import axios from 'axios'
-import { useAuthStore } from './stores/TasksStore';
+  import { ref } from 'vue'
+  import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
+  import axios from 'axios'
+  import { useAuthStore } from '../stores/AuthStore'
+  import { useRouter } from 'vue-router'
 
-const emailOrUsername = ref('')
-const password = ref('')
-const showEmailOrUsernamePlaceholder = ref(true)
-const showPasswordPlaceholder = ref(true)
-const authStore = useAuthStore();
+  const router = useRouter()
+  const emailOrUsername = ref('')
+  const password = ref('')
+  const showEmailOrUsernamePlaceholder = ref(true)
+  const showPasswordPlaceholder = ref(true)
+  const authStore = useAuthStore()
 
-const handleSignIn = async () => {
-  const auth = getAuth();
+  const handleSignIn = async () => {
+    const auth = getAuth()
 
-  let email = emailOrUsername.value;
+    let email = emailOrUsername.value
 
-  if (!emailOrUsername.value.includes('@')) {
-    const username = emailOrUsername.value;
-    email = await getUserEmail(username);
-    if (!email) {
-      error.value = "Username not found";
-      return;
+    if (!emailOrUsername.value.includes('@')) {
+      const username = emailOrUsername.value
+      email = await getUserEmail(username)
+      if (!email) {
+        error.value = 'Username not found'
+        return
+      }
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password.value)
+      // console.log('User signed in:', userCredential.user)
+      // console.log('User ID:', userCredential.user.uid)
+      authStore.login(userCredential.user.uid)
+      router.push('/')
+    } catch (error) {
+      console.error('Error signing in:', error)
     }
   }
 
-  try {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password.value);
-    console.log('User signed in:', userCredential.user);
-    authStore.login();
-  } catch (error) {
-    console.error('Error signing in:', error);
+  const getUserEmail = async (username) => {
+    try {
+      const response = await axios.get(
+        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/findEmail`,
+        {
+          params: { username }
+        }
+      )
+      return response.data.email
+    } catch (error) {
+      console.error('Error getting user email:', error)
+      return ''
+    }
   }
-}
 
-const getUserEmail = async (username) => {
-  try {
-    const response = await axios.get(
-      `http://127.0.0.1:1115/yugioh-saver/us-central1/api/findEmail`,
-      {
-        params: { username }
-      }
-    )
-    return response.data.email
-  } catch (error) {
-    console.error('Error getting user email:', error)
-    return ''
+  const togglePlaceholder = (field) => {
+    if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
+      showEmailOrUsernamePlaceholder.value = true
+    } else if (field === 'password' && !showPasswordPlaceholder.value) {
+      showPasswordPlaceholder.value = true
+    }
   }
-}
-
-const login = () => {
-  authStore.login();
-};
-
-const togglePlaceholder = (field) => {
-  if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
-    showEmailOrUsernamePlaceholder.value = true
-  } else if (field === 'password' && !showPasswordPlaceholder.value) {
-    showPasswordPlaceholder.value = true
-  }
-}
-
 </script>
 
 <style scoped>
