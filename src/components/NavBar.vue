@@ -10,6 +10,7 @@
 
       <div class="navbar-right" v-if="authStore.loggedIn">
         <router-link to="/find-card" class="navbar-item"> Find Cards </router-link>
+        <router-link to="/profile-page" class="navbar-item">Profile</router-link>
         <a @click="handleLogout" class="navbar-item">Sign Out</a>
       </div>
     </div>
