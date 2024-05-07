@@ -1,4 +1,3 @@
-// AuthStore.js
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
@@ -15,5 +14,14 @@ export const useAuthStore = defineStore('auth', {
       this.loggedIn = false
       this.uid = null
     }
+  },
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'auth',
+        storage: localStorage
+      }
+    ]
   }
 })
