@@ -25,12 +25,9 @@
     try {
       console.log('Button pressed')
       const uid = authStore.uid
-      const response = await axios.get(
-        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/getCards`,
-        {
-          params: { uid }
-        }
-      )
+      const response = await axios.get(`${getCardsUrl}`, {
+        params: { uid }
+      })
 
       console.log(response.data)
 
