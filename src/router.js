@@ -1,35 +1,41 @@
-import { createRouter, createWebHistory } from "vue-router";
-import HomePage from "./views/HomePage.vue";
-import SignIn from "./views/SignIn.vue";
-import SignUp from "./views/SignUp.vue";
-import FindCard from "./views/FindCard.vue";
+import { createRouter, createWebHistory } from 'vue-router'
+import HomePage from './views/HomePage.vue'
+import SignIn from './views/SignIn.vue'
+import SignUp from './views/SignUp.vue'
+import FindCard from './views/FindCard.vue'
+import ProfilePage from './views/ProfilePage.vue'
 
 const routes = [
   {
-    path: "/",
-    name: "HomePage",
-    component: HomePage,
+    path: '/',
+    name: 'HomePage',
+    component: HomePage
   },
   {
-    path: "/sign-in",
-    name: "SignIn",
-    component: SignIn,
+    path: '/sign-in',
+    name: 'SignIn',
+    component: SignIn
   },
   {
-    path: "/sign-up",
-    name: "SignUp",
-    component: SignUp,
+    path: '/sign-up',
+    name: 'SignUp',
+    component: SignUp
   },
   {
-    path: "/find-card",
-    name: "FindCard",
-    component: FindCard,
+    path: '/find-card',
+    name: 'FindCard',
+    component: FindCard
   },
-];
+  {
+    path: '/profile-page',
+    name: 'ProfilePage',
+    component: ProfilePage
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),
-  routes,
-});
+  routes
+})
 
-export default router;
+export default router
