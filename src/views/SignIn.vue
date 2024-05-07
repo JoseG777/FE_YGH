@@ -39,8 +39,8 @@
   import axios from 'axios'
   import { useAuthStore } from '../stores/AuthStore'
   import { useRouter } from 'vue-router'
+  
   const findEmailUrl = import.meta.env.VITE_APP_FIND_EMAIL_URL;
-
   const router = useRouter()
   const emailOrUsername = ref('')
   const password = ref('')

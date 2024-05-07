@@ -69,6 +69,7 @@
   import { useRouter } from 'vue-router'
 
   const router = useRouter()
+  const addUserURL = import.meta.env.VITE_APP_ADD_USER_URL
 
   // Sign Up values
   const email = ref('')
@@ -127,7 +128,7 @@
     }
     try {
       const response = await axios.post(
-        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/CreateUser`,
+        `${addUserURL}`,
         userData
       )
     } catch (error) {
