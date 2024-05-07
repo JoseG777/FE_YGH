@@ -39,6 +39,7 @@
   import axios from 'axios'
   import { useAuthStore } from '../stores/AuthStore'
   import { useRouter } from 'vue-router'
+  const findEmailUrl = import.meta.env.VITE_APP_FIND_EMAIL_URL;
 
   const router = useRouter()
   const emailOrUsername = ref('')
@@ -75,7 +76,7 @@
   const getUserEmail = async (username) => {
     try {
       const response = await axios.get(
-        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/findEmail`,
+        `${findEmailUrl}`,
         {
           params: { username }
         }
