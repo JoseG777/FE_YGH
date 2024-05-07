@@ -15,6 +15,8 @@
   import { useAuthStore } from '../stores/AuthStore'
   import { ref, onMounted } from 'vue'
 
+  const getCardsUrl = import.meta.env.VITE_APP_GET_CARDS_URL
+
   const authStore = useAuthStore()
 
   const cards = ref([])

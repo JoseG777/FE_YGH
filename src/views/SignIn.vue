@@ -39,8 +39,9 @@
   import axios from 'axios'
   import { useAuthStore } from '../stores/AuthStore'
   import { useRouter } from 'vue-router'
-  
-  const findEmailUrl = import.meta.env.VITE_APP_FIND_EMAIL_URL;
+
+  const findEmailUrl = import.meta.env.VITE_APP_FIND_EMAIL_URL
+
   const router = useRouter()
   const emailOrUsername = ref('')
   const password = ref('')
@@ -75,12 +76,9 @@
   //comment
   const getUserEmail = async (username) => {
     try {
-      const response = await axios.get(
-        `${findEmailUrl}`,
-        {
-          params: { username }
-        }
-      )
+      const response = await axios.get(`${findEmailUrl}`, {
+        params: { username }
+      })
       return response.data.email
     } catch (error) {
       console.error('Error getting user email:', error)
