@@ -35,6 +35,10 @@ const routes = [
     name: 'ProfilePage',
     component: ProfilePage,
     requiresAuth: true 
+  },
+  {
+    path: '/:catchAll(.*)',
+    redirect: '/'
   }
 ]
 
@@ -52,7 +56,7 @@ router.beforeEach((to, from, next) => {
   } else if (!to.meta.requiresAuth && isLoggedIn && (to.name === 'SignIn' || to.name === 'SignUp')) {
     next({ name: 'HomePage' });
   } else if (isLoggedIn && !isRouteInNavbar(to.name)) {
-    next({ name: 'HomePage' });
+    next();
   } else if (!isLoggedIn && !isRouteInNavbar(to.name)) {
     next({ name: 'HomePage' });
   } else {
