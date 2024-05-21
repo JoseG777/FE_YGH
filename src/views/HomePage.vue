@@ -8,7 +8,9 @@
       <li> Creating / uploading decks for everyone to see </li>
       <li> Adding favorites </li>
       <li> Deleting cards from saved </li>
+      <li> Numerous small little bugs / quality of life improvements </li>
     </ul>
+    <p> Last updated: May 7th, 2024 </p>
   </div>
 </template>
 
