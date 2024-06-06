@@ -25,14 +25,14 @@
     try {
       console.log('Button pressed')
       const uid = authStore.uid
-      const response = await axios.get(`${getCardsUrl}`, {
+      const response = await axios.get(getCardsUrl, {
         params: { uid }
       })
 
       console.log(response.data)
 
       cards.value = response.data.map((card) => ({
-        id: card.name,
+        id: card._id,
         imageUrl: card.imageUrl
       }))
     } catch (error) {

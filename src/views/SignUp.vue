@@ -65,6 +65,44 @@
   const error = ref('')
   const errorThrown = ref(false)
 
+  const getPlaceholderText = (field) => {
+    switch (field) {
+      case 'username':
+        return 'Username'
+      case 'email':
+        return 'Email'
+      case 'password':
+        return 'Password'
+      case 'confirmPassword':
+        return 'Confirm Password'
+      default:
+        return ''
+    }
+  }
+
+  const handleInput = (field) => {
+    const inputField = document.querySelector(`input[placeholder="${getPlaceholderText(field)}"]`)
+    if (inputField.value.length > 0) {
+      inputField.placeholder = ''
+    } else {
+      inputField.placeholder = getPlaceholderText(field)
+    }
+  }
+
+  const addUserData = async (username, email, uid) => {
+    const userData = {
+      username,
+      email,
+      uid
+    }
+    try {
+      const response = await axios.post(import.meta.env.VITE_APP_ADD_USER_URL, userData)
+      console.log(response.data)
+    } catch (error) {
+      console.error('Create Error:', error)
+    }
+  }
+
   const handleSignUp = async () => {
     const auth = getAuth()
     if (username.value.includes('@')) {
@@ -84,98 +122,58 @@
       console.error('Error signing up:', error.code, error.message)
     }
   }
-
-  const getPlaceholderText = (field) => {
-  switch (field) {
-    case 'username':
-      return 'Username'
-    case 'email':
-      return 'Email'
-    case 'password':
-      return 'Password'
-    case 'confirmPassword':
-      return 'Confirm Password'
-    default:
-      return ''
-  }
-}
-
-  const handleInput = (field) => {
-  const inputField = document.querySelector(`input[placeholder="${getPlaceholderText(field)}"]`)
-  if (inputField.value.length > 0) {
-    inputField.placeholder = ''
-  } else {
-    inputField.placeholder = getPlaceholderText(field)
-  }
-}
-
-  const addUserData = async (username, email, uid) => {
-    const userData = {
-      username,
-      email,
-      uid
-    }
-    try {
-      const response = await axios.post(
-        `${addUserURL}`,
-        userData
-      )
-    } catch (error) {
-      console.error('Create Error:', error)
-    }
-  }
 </script>
 
 <style scoped>
-input {
-  width: 100%;
-  padding: 10px;
-  background-color: transparent;
-  border: 2px solid #666;
-  border-radius: 5px;
-  color: white;
-}
+  input {
+    width: 100%;
+    padding: 10px;
+    background-color: transparent;
+    border: 2px solid #666;
+    border-radius: 5px;
+    color: white;
+  }
 
-input:focus {
-  outline: none;
-  border-color: #ccc;
-}
+  input:focus {
+    outline: none;
+    border-color: #ccc;
+  }
 
-.submit-button {
-  width: 108%; 
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #f1f1f1;
-  color: #333;
-  cursor: pointer;
-  transition: opacity 0.3s ease;
-}
+  .submit-button {
+    width: 108%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f1f1f1;
+    color: #333;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
 
-.submit-button:hover {
-  opacity: 0.8;
-}
+  .submit-button:hover {
+    opacity: 0.8;
+  }
 
-body {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-}
+  body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+  }
 
-.login-form {
-  width: 300px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  border-radius: 8px;
-  font-family: 'Poppins', sans-serif;
-}
+  .login-form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+  }
 
-.field {
-  margin: 20px 0;
-  position: relative;
-}
+  .field {
+    margin: 20px 0;
+    position: relative;
+  }
 </style>
