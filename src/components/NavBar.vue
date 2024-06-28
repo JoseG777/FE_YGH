@@ -32,20 +32,28 @@
 </script>
 
 <style scoped>
+  :root {
+    --bg-gradient: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+    --navbar-height: 60px; /* Match this with the navbar.vue file */
+  }
+
   .navbar {
     background-color: #333333;
     overflow: hidden;
     position: fixed;
     top: 0;
     width: 100%;
+    height: var(--navbar-height);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
   }
 
   .navbar-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 10px 20px;
+    padding: 0 20px;
+    height: 100%;
   }
 
   .navbar-brand {
