@@ -17,6 +17,7 @@
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
+    "@grpc/grpc-js": "^1.10.10",
     "@vitejs/plugin-vue": "^5.0.4",
     "@vue/cli-plugin-router": "~5.0.0",
     "prettier": "^3.2.5",
