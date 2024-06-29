@@ -39,12 +39,11 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: var(--navbar-height); /* This pushes content below the navbar */
+  padding-top: var(--navbar-height); 
 }
 
 .mystical-container {
-  /* ... other styles ... */
-  max-height: calc(100vh - var(--navbar-height) - 4rem); /* Adjust for navbar height */
+  max-height: calc(100vh - var(--navbar-height) - 4rem); 
 }
 
 .realm-title {
