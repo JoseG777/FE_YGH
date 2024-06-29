@@ -5,59 +5,42 @@
         <input
           type="username"
           v-model="username"
-          placeholder=" "
+          placeholder="Username"
           required
-          @focus="togglePlaceholder('username')"
-          @blur="togglePlaceholder('username')"
+          @input="handleInput('username')"
         />
-        <span class="placeholder" :class="{ 'placeholder-visible': showUsernamePlaceholder }"
-          >Username</span
-        >
       </div>
       <div class="field">
         <input
           type="email"
           v-model="email"
-          placeholder=" "
+          placeholder="Email"
           required
-          @focus="togglePlaceholder('email')"
-          @blur="togglePlaceholder('email')"
+          @input="handleInput('email')"
         />
-        <span class="placeholder" :class="{ 'placeholder-visible': showEmailPlaceholder }"
-          >Email</span
-        >
       </div>
 
       <div class="field">
         <input
           type="password"
           v-model="password"
-          placeholder=" "
+          placeholder="Password"
           required
-          @focus="togglePlaceholder('password')"
-          @blur="togglePlaceholder('password')"
+          @input="handleInput('password')"
         />
-        <span class="placeholder" :class="{ 'placeholder-visible': showPasswordPlaceholder }"
-          >Password</span
-        >
       </div>
 
       <div class="field">
         <input
           type="password"
           v-model="confirmPassword"
-          placeholder=" "
+          placeholder="Confirm Password"
           required
-          @focus="togglePlaceholder('confirmPassword')"
-          @blur="togglePlaceholder('confirmPassword')"
+          @input="handleInput('confirmPassword')"
         />
-
-        <span class="placeholder" :class="{ 'placeholder-visible': showConfirmPasswordPlaceholder }"
-          >Confirm Password</span
-        >
       </div>
 
-      <button type="submit" @click.prevent="handleSignUp">Sign Up</button>
+      <button type="submit" @click.prevent="handleSignUp" class="submit-button">Sign Up</button>
     </form>
   </body>
 </template>
@@ -69,6 +52,7 @@
   import { useRouter } from 'vue-router'
 
   const router = useRouter()
+  const addUserURL = import.meta.env.VITE_APP_ADD_USER_URL
 
   // Sign Up values
   const email = ref('')
@@ -77,15 +61,47 @@
   const username = ref('')
   const uid = ref('')
 
-  // Placeholder values
-  const showEmailPlaceholder = ref(true)
-  const showPasswordPlaceholder = ref(true)
-  const showConfirmPasswordPlaceholder = ref(true)
-  const showUsernamePlaceholder = ref(true)
-
   // Error message
   const error = ref('')
   const errorThrown = ref(false)
+
+  const getPlaceholderText = (field) => {
+    switch (field) {
+      case 'username':
+        return 'Username'
+      case 'email':
+        return 'Email'
+      case 'password':
+        return 'Password'
+      case 'confirmPassword':
+        return 'Confirm Password'
+      default:
+        return ''
+    }
+  }
+
+  const handleInput = (field) => {
+    const inputField = document.querySelector(`input[placeholder="${getPlaceholderText(field)}"]`)
+    if (inputField.value.length > 0) {
+      inputField.placeholder = ''
+    } else {
+      inputField.placeholder = getPlaceholderText(field)
+    }
+  }
+
+  const addUserData = async (username, email, uid) => {
+    const userData = {
+      username,
+      email,
+      uid
+    }
+    try {
+      const response = await axios.post(import.meta.env.VITE_APP_ADD_USER_URL, userData)
+      console.log(response.data)
+    } catch (error) {
+      console.error('Create Error:', error)
+    }
+  }
 
   const handleSignUp = async () => {
     const auth = getAuth()
@@ -106,34 +122,6 @@
       console.error('Error signing up:', error.code, error.message)
     }
   }
-
-  const togglePlaceholder = (field) => {
-    if (field === 'email' && !showEmailPlaceholder.value) {
-      showEmailPlaceholder.value = true
-    } else if (field === 'password' && !showPasswordPlaceholder.value) {
-      showPasswordPlaceholder.value = true
-    } else if (field === 'confirmPassword' && !showConfirmPasswordPlaceholder.value) {
-      showConfirmPasswordPlaceholder.value = true
-    } else if (field === 'username' && !showUsernamePlaceholder.value) {
-      showUsernamePlaceholder.value = true
-    }
-  }
-
-  const addUserData = async (username, email, uid) => {
-    const userData = {
-      username,
-      email,
-      uid
-    }
-    try {
-      const response = await axios.post(
-        `http://127.0.0.1:1115/yugioh-saver/us-central1/api/CreateUser`,
-        userData
-      )
-    } catch (error) {
-      console.error('Create Error:', error)
-    }
-  }
 </script>
 
 <style scoped>
@@ -151,27 +139,8 @@
     border-color: #ccc;
   }
 
-  .placeholder {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #ccc;
-    transition: all 0.3s ease;
-    opacity: 0;
-  }
-
-  .placeholder-visible {
-    opacity: 1;
-  }
-
-  input:focus + .placeholder,
-  input:not(:placeholder-shown) + .placeholder {
-    top: -20px;
-    left: 0;
-    font-size: 12px;
-  }
-
-  button {
+  .submit-button {
+    width: 108%;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -181,7 +150,7 @@
     transition: opacity 0.3s ease;
   }
 
-  button:hover {
+  .submit-button:hover {
     opacity: 0.8;
   }
 
@@ -206,11 +175,5 @@
   .field {
     margin: 20px 0;
     position: relative;
-  }
-
-  .placeholder,
-  input,
-  button {
-    transition: all 0.3s ease;
   }
 </style>

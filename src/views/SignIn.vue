@@ -5,33 +5,26 @@
         <input
           type="text"
           v-model="emailOrUsername"
-          placeholder=" "
+          placeholder="Email/Username"
           required
-          @focus="togglePlaceholder('emailOrUsername')"
-          @blur="togglePlaceholder('emailOrUsername')"
+          @input="handleInput('emailOrUsername')"
         />
-        <span class="placeholder" :class="{ 'placeholder-visible': showEmailOrUsernamePlaceholder }"
-          >Email/Username</span
-        >
       </div>
 
       <div class="field">
         <input
           type="password"
           v-model="password"
-          placeholder=" "
+          placeholder="Password"
           required
-          @focus="togglePlaceholder('password')"
-          @blur="togglePlaceholder('password')"
+          @input="handleInput('password')"
         />
-        <span class="placeholder" :class="{ 'placeholder-visible': showPasswordPlaceholder }"
-          >Password</span
-        >
       </div>
-      <button type="submit" @click.prevent="handleSignIn">Sign In</button>
+      <button type="submit" @click.prevent="handleSignIn" class="submit-button">Sign In</button>
     </form>
   </body>
 </template>
+
 
 <script setup>
   import { ref } from 'vue'
@@ -39,13 +32,12 @@
   import axios from 'axios'
   import { useAuthStore } from '../stores/AuthStore'
   import { useRouter } from 'vue-router'
-  const findEmailUrl = import.meta.env.VITE_APP_FIND_EMAIL_URL;
+
+  const findEmailUrl = import.meta.env.VITE_APP_FIND_EMAIL_URL
 
   const router = useRouter()
   const emailOrUsername = ref('')
   const password = ref('')
-  const showEmailOrUsernamePlaceholder = ref(true)
-  const showPasswordPlaceholder = ref(true)
   const authStore = useAuthStore()
 
   const handleSignIn = async () => {
@@ -64,8 +56,6 @@
 
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password.value)
-      // console.log('User signed in:', userCredential.user)
-      // console.log('User ID:', userCredential.user.uid)
       authStore.login(userCredential.user.uid)
       router.push('/')
     } catch (error) {
@@ -75,12 +65,9 @@
 
   const getUserEmail = async (username) => {
     try {
-      const response = await axios.get(
-        `${findEmailUrl}`,
-        {
-          params: { username }
-        }
-      )
+      const response = await axios.get(`${findEmailUrl}`, {
+        params: { username }
+      })
       return response.data.email
     } catch (error) {
       console.error('Error getting user email:', error)
@@ -88,90 +75,77 @@
     }
   }
 
-  const togglePlaceholder = (field) => {
-    if (field === 'emailOrUsername' && !showEmailOrUsernamePlaceholder.value) {
-      showEmailOrUsernamePlaceholder.value = true
-    } else if (field === 'password' && !showPasswordPlaceholder.value) {
-      showPasswordPlaceholder.value = true
+  const handleInput = (field) => {
+    const inputField = document.querySelector(`input[placeholder="${getPlaceholderText(field)}"]`)
+    if (inputField.value.length > 0) {
+      inputField.placeholder = ''
+    } else {
+      inputField.placeholder = getPlaceholderText(field)
+    }
+  }
+
+  const getPlaceholderText = (field) => {
+    switch (field) {
+      case 'emailOrUsername':
+        return 'Email/Username'
+      case 'password':
+        return 'Password'
+      default:
+        return ''
     }
   }
 </script>
 
 <style scoped>
-  input {
-    width: 100%;
-    padding: 10px;
-    background-color: transparent;
-    border: 2px solid #666;
-    border-radius: 5px;
-    color: white;
-  }
+input {
+  width: 100%;
+  padding: 10px;
+  background-color: transparent;
+  border: 2px solid #666;
+  border-radius: 5px;
+  color: white;
+}
 
-  input:focus {
-    outline: none;
-    border-color: #ccc;
-  }
+input:focus {
+  outline: none;
+  border-color: #ccc;
+}
 
-  .placeholder {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    color: #ccc;
-    transition: all 0.3s ease;
-    opacity: 0;
-  }
+.submit-button {
+  width: 108%; 
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  color: #333;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
 
-  .placeholder-visible {
-    opacity: 1;
-  }
+.submit-button:hover {
+  opacity: 0.8;
+}
 
-  input:focus + .placeholder,
-  input:not(:placeholder-shown) + .placeholder {
-    top: -20px;
-    left: 0;
-    font-size: 12px;
-  }
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
 
-  button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #f1f1f1;
-    color: #333;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-  }
+.login-form {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+}
 
-  button:hover {
-    opacity: 0.8;
-  }
-
-  body {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-  }
-
-  .login-form {
-    width: 300px;
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    border-radius: 8px;
-    font-family: 'Poppins', sans-serif;
-  }
-
-  .field {
-    margin: 20px 0;
-    position: relative;
-  }
-
-  .placeholder,
-  input,
-  button {
-    transition: all 0.3s ease;
-  }
+.field {
+  margin: 20px 0;
+  position: relative;
+}
 </style>

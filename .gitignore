@@ -25,5 +25,9 @@ dist-ssr
 
 /.vscode
 
+*.env
+
 .env
-.env.production
+.env.production.production
+
+/.firebase
