@@ -115,20 +115,19 @@
   align-items: center;
   font-family: 'Merriweather', serif;
   color: #ffd700;
-  overflow: hidden; /* Prevents container from overflowing */
+  overflow: hidden; 
 }
 
 .mystical-container {
-  background: rgba(0, 0, 0, 0.2); /* Reduced opacity */
+  background: rgba(0, 0, 0, 0.2); 
   border-radius: 20px;
   padding: 2rem;
-  box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); /* Reduced shadow */
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.1); 
   max-width: 800px;
   width: 90%;
-  position: sticky;
-  top: 20px; /* Adjust this value to control the sticky position */
+  position: sticky; 
   overflow: hidden;
-  backdrop-filter: blur(5px); /* Add slight blur effect */
+  backdrop-filter: blur(5px); 
 }
 
 .realm-title {
