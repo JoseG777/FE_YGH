@@ -2,8 +2,16 @@
   <div class="home-container">
     <div class="content">
       <h1>Hello, Yu-Gi-Oh!</h1>
-      <p>Welcome to our Yu-Gi-Oh card saver web app!</p>
-      <p>Currently this web app is a work in progress. We're planning to add the following:</p>
+      <h2>Welcome to our Yu-Gi-Oh card saver web app!</h2>
+      <h3> Right now you can... </h3>
+      </br>
+      <ul>
+        <li>Create an account!</li>
+        <li>Search for cards and save them to your profile!</li>
+      </ul>
+      
+      </br>
+      <h3>Currently this web app is a work in progress. We're planning to add the following:</h3>
       <ul>
         <li>Creating / uploading decks for everyone to see</li>
         <li>Adding favorites</li>
